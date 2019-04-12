@@ -176,12 +176,23 @@ Function.prototype.myThrottle = function (interval){
 // neuron.fire = neuron.fire.myThrottle(2000);
 
 Function.prototype.myDebounce = function (interval){
-  let mytime = setTimeout(() => { 
-    this.call(arguments) 
+  let mytime;
+  return () => {
+    clearTimeout(mytime);
+    mytime = setTimeout(() => {
+      this.call()
+    }, interval);
+  };
+}
+
+Function.prototype.myDebounce = function (interval) {
+  let mytime = setTimeout(() => {
+    this.call()
   }, interval);
   return () => {
     clearTimeout(mytime);
-  }
+    mytime;
+  };
 }
 
 class SearchBar {
@@ -198,7 +209,6 @@ class SearchBar {
   }
 
   search() {
-
     console.log(`searching for ${this.query}`);
   }
 }
